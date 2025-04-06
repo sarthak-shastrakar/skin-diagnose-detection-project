@@ -11,3 +11,4 @@ opencv-python
 seaborn
 Pillow
 google-generativeai
+folium
