@@ -12,4 +12,5 @@ seaborn
 Pillow
 google-generativeai
 folium
+streamlit-folium
 fpdf
