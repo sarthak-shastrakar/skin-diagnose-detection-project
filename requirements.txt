@@ -1,5 +1,6 @@
 ﻿streamlit
 streamlit-option-menu
+python-dotenv
 numpy
 pandas
 tensorflow
@@ -8,3 +9,4 @@ scikit-learn
 matplotlib
 opencv-python
 seaborn
+Pillow
