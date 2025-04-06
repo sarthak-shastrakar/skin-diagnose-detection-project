@@ -11,7 +11,7 @@ from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
 
 def model_prediction(test_image):
-    model_path = r"skin_disease_detection\models\trained_model.h5"
+    model_path = r"skin_disease_detection/trained_model.h5"
     model = tf.keras.models.load_model(model_path)
 
     image = tf.keras.preprocessing.image.load_img(test_image, target_size=(256, 256))
