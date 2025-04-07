@@ -13,3 +13,6 @@ CNN-based skin disease diagnosis system using ML, DL, CNN models and deployed wi
 - TensorFlow/Keras
 - Jupyter Notebook (.ipynb)
 - CNN (Convolutional Neural Networks)
+
+## Project Demo Link
+https://skin-diagnose-detection-project-011.streamlit.app/
