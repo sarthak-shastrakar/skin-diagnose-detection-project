@@ -15,3 +15,5 @@ folium
 streamlit-folium
 fpdf
 geopy
+gdown
+os
