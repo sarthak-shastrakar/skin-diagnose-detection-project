@@ -16,4 +16,3 @@ streamlit-folium
 fpdf
 geopy
 gdown
-os
