@@ -6,7 +6,7 @@ A **Smart Skin Disease Detection Web Application** built using **Machine Learnin
 
 ## 🚀 Features
 
-### 🧠 AI-Powered Disease Detection
+### 🧠 ML,CNN - Based Disease Detection
 Upload a skin image and get instant predictions of skin conditions using a trained CNN model.  
 Supported diseases:
 - Actinic Keratosis
