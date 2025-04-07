@@ -10,20 +10,37 @@ from streamlit_folium import folium_static
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
 
-def model_prediction(test_image):
-    model_path = r"skin_disease_detection/trained_model.h5"
-    model = tf.keras.models.load_model(model_path)
+# def model_prediction(test_image):
+#     model_path = r"skin_disease_detection/trained_model.h5"
+#     model = tf.keras.models.load_model(model_path)
 
+#     image = tf.keras.preprocessing.image.load_img(test_image, target_size=(256, 256))
+#     input_arr = tf.keras.preprocessing.image.img_to_array(image)
+#     input_arr = np.array([input_arr])
+
+#     prediction = model.predict(input_arr)
+#     result_index = np.argmax(prediction)
+#     confidence_score = np.max(prediction) * 100
+#     return result_index 
+    
+def model_prediction(test_image):
+    model_path = "trained_model.h5"
+    
+    # Download the model if it doesn't already exist
+    if not os.path.exists(model_path):
+        file_id = "1m7mJxUYrzhF0OqGHq6CldT9JpS3kVKWG"  # Replace this with your actual file ID
+        url = f"https://drive.google.com/uc?id={file_id}"
+        gdown.download(url, model_path, quiet=False)
+
+    # Load and predict
+    model = tf.keras.models.load_model(model_path)
     image = tf.keras.preprocessing.image.load_img(test_image, target_size=(256, 256))
     input_arr = tf.keras.preprocessing.image.img_to_array(image)
     input_arr = np.array([input_arr])
-
     prediction = model.predict(input_arr)
     result_index = np.argmax(prediction)
-    confidence_score = np.max(prediction) * 100
-    return result_index 
-    # return confidence_score 
-
+    return result_index
+    
 def generate_pdf(disease_name, disease_info, uploaded_image):
     pdf = FPDF()
     pdf.add_page()
