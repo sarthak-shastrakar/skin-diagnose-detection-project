@@ -3,14 +3,14 @@ import streamlit as st
 import tensorflow as tf
 import numpy as np
 import folium
-import os
-import gdown
 from fpdf import FPDF
 from io import BytesIO
 from PIL import Image
 from streamlit_folium import folium_static
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
+import os
+import gdown
 
 # def model_prediction(test_image):
 #     model_path = r"skin_disease_detection/trained_model.h5"
