@@ -1,27 +1,14 @@
 import streamlit as st
-
-
 def app():
     st.markdown("""
         <style>
             /* Fullscreen Background */
             .stApp {
-                background-image: url("https://img.freepik.com/free-photo/copy-space-glasses-stethoscope-desk_23-2148519795.jpg?t=st=1742308007~exp=1742311607~hmac=3a186984c40ed672d07e52869c9166732f4d3cfe4647e17feaa80de0f8f61cb3&w=1380");
+                background-image: url("https://img.freepik.com/free-vector/abstract-medical-wallpaper-template-design_53876-61808.jpg?ga=GA1.1.1716491593.1710255249&semt=ais_hybrid&w=740");
                 background-size: cover;
                 background-position: center;
                 background-attachment: fixed;
                 color: blue;
-            }
-
-            /* Center Content */
-            .content-container {
-                text-align: center;
-                max-width: 800px;
-                margin: auto;
-                background: rgba(0, 0, 0, 0.7);
-                padding: 30px;
-                border-radius: 15px;
-                box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
             }
 
             /* Headings */
@@ -55,13 +42,13 @@ def app():
                 color: white;
                 box-shadow: 0px 0px 15px rgba(255, 102, 0, 0.7);
             }
+            
             .container {
             display:inline-flex;
             flex-direction:row;
-            }
 
             .card {
-                background: #ffffff;
+                background: linear-gradient(135deg, #16222a, #3a6073);
                 padding: 10px;
                 border-radius: 12px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -91,7 +78,6 @@ def app():
             }
 
 
-
         </style>
     """, unsafe_allow_html=True)
 
@@ -108,8 +94,8 @@ def app():
 
     def display_card_1(img_url, title, text, btn_text, btn_link):
         st.markdown(f"""
-    <div class="row container ms-0" >
-    <div class="col-sm-6 mb-2 mb-sm-0 " style="width: 23rem;">
+    <div class="row col-sm-12 container" >
+    <div class="col-sm-6 mb-2 mb-sm-0 ">
     <div class="card ">
     <img src="{img_url}" class="card-img-top" style="border-radius:10px;" alt="{title}">
       <div class="card-body card__content">
@@ -151,180 +137,3 @@ def app():
 # Run the app function when the script is executed
 if __name__ == "__main__":
     app()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# import streamlit as st
-# import base64
-
-# # Function to encode the local background image as base64
-# def get_base64_image(image_path):
-#     with open(image_path, "rb") as img_file:
-#         encoded = base64.b64encode(img_file.read()).decode()
-#     return f"data:image/png;base64,{encoded}"
-
-# # Load the Ghibli-style background image
-# bg_image = get_base64_image("static/ghibli_bg.jpg")
-
-# # Custom CSS for Styling
-# st.markdown(f"""
-#     <style>
-#         /* Fullscreen Background */
-#         .stApp {{
-#             background-image: url("{bg_image}");
-#             background-size: cover;
-#             background-position: center;
-#             background-attachment: fixed;
-#             color: white;
-#             font-family: 'Arial', sans-serif;
-#         }}
-
-#         /* Centered Container */
-#         .container {{
-#             text-align: center;
-#             max-width: 900px;
-#             margin: auto;
-#             background: rgba(0, 0, 0, 0.7);
-#             padding: 30px;
-#             border-radius: 15px;
-#             box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
-#         }}
-
-#         /* Headline Styling */
-#         .title {{
-#             font-size: 45px;
-#             font-weight: bold;
-#             color: #ffcc00;
-#             text-shadow: 2px 2px 10px rgba(255, 204, 0, 0.7);
-#         }}
-
-#         .subtitle {{
-#             font-size: 20px;
-#             color: #ffffff;
-#             margin-bottom: 20px;
-#         }}
-
-#         /* Bootstrap-like Cards */
-#         .card-container {{
-#             display: flex;
-#             justify-content: center;
-#             gap: 20px;
-#             flex-wrap: wrap;
-#         }}
-
-#         .card {{
-#             background: #ffffff;
-#             padding: 15px;
-#             border-radius: 12px;
-#             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-#             max-width: 300px;
-#             text-align: center;
-#             transition: transform 0.3s ease-in-out;
-#         }}
-
-#         .card:hover {{
-#             transform: scale(1.05);
-#         }}
-
-#         .card__image {{
-#             width: 100%;
-#             height: 180px;
-#             object-fit: cover;
-#             border-radius: 10px;
-#         }}
-
-#         .card__title {{
-#             font-size: 22px;
-#             font-weight: bold;
-#             color: #333;
-#             margin-top: 10px;
-#         }}
-
-#         .card__description {{
-#             font-size: 14px;
-#             color: #666;
-#         }}
-
-#         .btn {{
-#             display: inline-block;
-#             margin-top: 10px;
-#             padding: 8px 15px;
-#             background: linear-gradient(to right, #ffcc00, #ff9900);
-#             color: black;
-#             font-weight: bold;
-#             border-radius: 5px;
-#             text-decoration: none;
-#             transition: 0.3s;
-#         }}
-
-#         .btn:hover {{
-#             background: #ff6600;
-#             color: white;
-#             box-shadow: 0px 0px 10px rgba(255, 102, 0, 0.7);
-#         }}
-
-#     </style>
-# """, unsafe_allow_html=True)
-
-# # Main Content
-# st.markdown(
-#     """
-#     <div class="container">
-#         <h1 class="title">🩺 DermaCare Hub</h1>
-#         <h3 class="subtitle">AI-Powered Skin Disease Detection for a Healthier You</h3>
-#         <p style="font-size: 18px;">
-#             Our cutting-edge AI model, powered by **CNN, ML, and DL**, analyzes skin images 
-#             to detect potential conditions. Get **fast, accurate, and reliable** skin disease insights 
-#             at your fingertips!
-#         </p>
-#         <p>🔬 AI-based skin analysis | 👩‍⚕️ Virtual consultations | 💡 Personalized skincare tips</p>
-#     </div>
-#     """, unsafe_allow_html=True
-# )
-
-# # Display Bootstrap-like Cards
-# st.markdown(
-#     """
-#     <div class="card-container">
-
-#         <div class="card">
-#             <img class="card__image" src="https://tse4.mm.bing.net/th?id=OIP.Vfhfk1iT6WZbrJuWc_WqIwHaE7&pid=Api&P=0&h=180/300" alt="Acne">
-#             <h5 class="card__title">Acne Detection</h5>
-#             <p class="card__description">AI-powered acne detection helps identify different types of acne and suggests treatments.</p>
-#             <a href="https://www.healthline.com/health/skin/acne" class="btn">Learn More</a>
-#         </div>
-
-#         <div class="card">
-#             <img class="card__image" src="https://img.freepik.com/premium-photo/woman-with-dry-irritated-skin-hands-showing-dermatitis-symptoms_1274999-7657.jpg" alt="Eczema">
-#             <h5 class="card__title">Eczema Insights</h5>
-#             <p class="card__description">Detect and understand eczema symptoms to manage flare-ups effectively.</p>
-#             <a href="https://www.mayoclinic.org/diseases-conditions/atopic-dermatitis-eczema" class="btn">Learn More</a>
-#         </div>
-
-#         <div class="card">
-#             <img class="card__image" src="https://tse3.mm.bing.net/th?id=OIP.Xh_gDAXIvD0w56OG8sye4AHaE8&pid=Api&P=0&h=310" alt="Actinic Keratosis">
-#             <h5 class="card__title">Skin Cancer Screening</h5>
-#             <p class="card__description">Identify early signs of Actinic Keratosis and prevent future complications.</p>
-#             <a href="https://www.mayoclinic.org/diseases-conditions/actinic-keratosis" class="btn">Learn More</a>
-#         </div>
-
-#     </div>
-#     """, unsafe_allow_html=True
-# )
