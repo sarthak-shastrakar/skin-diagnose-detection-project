@@ -12,29 +12,14 @@ from geopy.exc import GeocoderTimedOut
 import os
 import gdown
 
-# def model_prediction(test_image):
-#     model_path = r"skin_disease_detection/trained_model.h5"
-#     model = tf.keras.models.load_model(model_path)
-
-#     image = tf.keras.preprocessing.image.load_img(test_image, target_size=(256, 256))
-#     input_arr = tf.keras.preprocessing.image.img_to_array(image)
-#     input_arr = np.array([input_arr])
-
-#     prediction = model.predict(input_arr)
-#     result_index = np.argmax(prediction)
-#     confidence_score = np.max(prediction) * 100
-#     return result_index 
-    
+# -------------------- Prediction --------------------
 def model_prediction(test_image):
     model_path = "trained_model.h5"
-    
-    # Download the model if it doesn't already exist
     if not os.path.exists(model_path):
-        file_id = "1m7mJxUYrzhF0OqGHq6CldT9JpS3kVKWG"  # Replace this with your actual file ID
+        file_id = "1m7mJxUYrzhF0OqGHq6CldT9JpS3kVKWG"  # Replace with actual file ID
         url = f"https://drive.google.com/uc?id={file_id}"
         gdown.download(url, model_path, quiet=False)
 
-    # Load and predict
     model = tf.keras.models.load_model(model_path)
     image = tf.keras.preprocessing.image.load_img(test_image, target_size=(256, 256))
     input_arr = tf.keras.preprocessing.image.img_to_array(image)
@@ -42,7 +27,8 @@ def model_prediction(test_image):
     prediction = model.predict(input_arr)
     result_index = np.argmax(prediction)
     return result_index
-    
+
+# -------------------- PDF Generator --------------------
 def generate_pdf(disease_name, disease_info, uploaded_image):
     pdf = FPDF()
     pdf.add_page()
@@ -50,101 +36,113 @@ def generate_pdf(disease_name, disease_info, uploaded_image):
     pdf.cell(200, 10, "Skin Disease Diagnosis Report", ln=True, align='C')
     pdf.ln(10)
 
-    if uploaded_image is not None:
+    if uploaded_image:
         image = Image.open(uploaded_image)
-        image_path = "temp_uploaded_image.jpg"
-        image.save(image_path)
-        pdf.image(image_path, x=50, y=25 , w=110)
+        img_path = "temp_image.jpg"
+        image.save(img_path)
+        pdf.image(img_path, x=50, y=25, w=110)
         pdf.ln(75)
 
-    pdf.set_font("Arial", style='B', size=15)
-    pdf.cell(0, 25, f"Predicted Disease Name: {disease_name}", ln=True)
-    pdf.ln(5)
-    pdf.set_font("Arial", size=13)
-    pdf.multi_cell(0, 10, f"Detail Info: {disease_info}")
-    pdf.ln(10)
+    pdf.set_font("Arial", style='B', size=14)
+    pdf.cell(0, 15, f"Predicted Disease: {disease_name}", ln=True)
+    pdf.set_font("Arial", size=12)
+    pdf.multi_cell(0, 10, f"Details: {disease_info}")
     
     pdf_bytes = BytesIO()
     pdf_bytes.write(pdf.output(dest='S').encode('latin1'))
     pdf_bytes.seek(0)
     return pdf_bytes
 
+# -------------------- Hospital Finder --------------------
 def find_hospitals(location):
-    geolocator = Nominatim(user_agent="hospital_locator")
+    geolocator = Nominatim(user_agent="skin_disease_app")
     try:
-        location_data = geolocator.geocode(location, timeout=10)
-        if location_data:
+        loc_data = geolocator.geocode(location, timeout=10)
+        if loc_data:
+            base_lat, base_lon = loc_data.latitude, loc_data.longitude
             hospitals = [
-                (location_data.latitude + 0.01, location_data.longitude, "City Hospital"),
-                (location_data.latitude - 0.01, location_data.longitude + 0.01, "Medical Care Center"),
-                (location_data.latitude, location_data.longitude - 0.02, "Health Clinic"),
-                (location_data.latitude + 0.015, location_data.longitude - 0.01, "Advanced Skin Care Hospital")
+                (base_lat + 0.008, base_lon + 0.004, "Sunshine Hospital"),
+                (base_lat - 0.009, base_lon + 0.006, "City Skin Clinic"),
+                (base_lat + 0.006, base_lon - 0.008, "Nova Care Center"),
+                (base_lat - 0.007, base_lon - 0.005, "Advanced Derma Hospital"),
             ]
-            return location_data.latitude, location_data.longitude, hospitals
+            return base_lat, base_lon, hospitals
     except GeocoderTimedOut:
-        return None, None, []
+        pass
     return None, None, []
 
+# -------------------- Main App --------------------
 def app():
-    st.title("🩺 Skin Disease Recognition")
-    st.write("Upload an image to detect skin disease and find nearby hospitals.")
-    
-    test_image = st.file_uploader("📷 Choose an image for analysis", type=['png', 'jpg', 'jpeg'])
-    user_location = st.text_input("📍 Enter your location (e.g., city name)")
-    
+    # st.set_page_config(page_title="Skin Disease Detector", page_icon="🩺", layout="wide")
+
+    # Background Image CSS
+    st.markdown(
+        """
+        <style>
+        .stApp {
+        # background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        # background: linear-gradient(135deg, #16222a, #3a6073);
+        background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+        background-size: cover;
+        background-attachment: fixed;
+        color: white;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.title("🩺 Skin Disease Detection & Hospital Finder")
+    st.markdown("Upload an image to detect the skin disease and get hospital recommendations near you.")
+
+    test_image = st.file_uploader("📷 Upload Skin Image", type=["jpg", "jpeg", "png"])
+    user_location = st.text_input("📍 Enter your City/Location")
+
     if test_image and user_location:
         st.image(test_image, caption="Uploaded Image", use_column_width=True)
-        
-        if st.button("🔍 Predict Disease"):
+
+        if st.button("🔍 Predict Skin Disease"):
             result_index = model_prediction(test_image)
-            
-            class_name = [
+            class_names = [
                 'Actinic keratosis', 'Atopic Dermatitis', 'Benign keratosis',
                 'Dermatofibroma', 'Melanocytic nevus', 'Melanoma',
                 'Squamous cell carcinoma', 'Tinea Ringworm Candidiasis', 'Vascular lesion'
             ]
-            
-            disease_info = {
-                0: 'Actinic keratosis is a rough, scaly patch on the skin caused by prolonged sun exposure.It often appears on areas frequently exposed to the sun, such as the face, ears, scalp, and hands.These lesions can be red, pink, or brown and may feel dry or rough.Although not cancerous, actinic keratosis has the potential to develop into squamous cell carcinoma.Treatment options include cryotherapy (freezing), topical medications, and laser therapy.',
-                1: 'Atopic dermatitis is a chronic inflammatory skin condition that causes dry, red, itchy skin, often leading to rashes or cracks. It can be triggered by allergens, irritants, stress, or weather changes, and is commonly seen in children but can persist into adulthood. Genetic factors, a weakened skin barrier, and immune system dysfunction contribute to its development. Preventing flare-ups involves keeping the skin moisturized, using mild soaps, avoiding allergens (such as dust and pet dander), and wearing soft, breathable fabrics.',
-                2: 'A non-cancerous skin growth.Benign keratosis refers to non-cancerous skin growths, including seborrheic keratosis, which appear as rough, wart-like, brown or black patches. These growths are common in older adults and result from aging, genetic predisposition, and sun exposure. They are harmless but may be removed for cosmetic reasons. Prevention includes avoiding excessive sun exposure, maintaining good skincare habits, and using sunscreen to minimize sun-induced skin damage.',
-                3: 'A benign fibrous nodule.Dermatofibromas are firm, small, reddish-brown nodules that commonly appear on the legs and arms. They develop due to an overgrowth of fibrous tissue in response to minor skin injuries such as insect bites or cuts. These nodules are usually painless but may feel tender when touched. While harmless, they can be removed surgically if they become bothersome. Prevention includes protecting the skin from injuries, maintaining proper hygiene, and avoiding excessive scratching or irritation.',
-                4: 'A benign growth caused by melanocyte clusters.A melanocytic nevus, commonly known as a mole, is a benign skin growth caused by clusters of melanocytes (pigment-producing cells). Moles can be present from birth or develop later due to genetic factors and sun exposure. While most moles are harmless, changes in size, shape, or color may indicate melanoma, a dangerous form of skin cancer. Prevention includes limiting sun exposure, using sunscreen, and regularly monitoring moles for any abnormal changes.',
-                5: 'A serious type of skin cancer.Melanoma is an aggressive form of skin cancer that develops in melanocytes, the cells responsible for skin pigmentation. It often appears as an irregularly shaped, dark-colored mole with uneven borders. Prolonged UV radiation exposure, fair skin, and a family history of melanoma are major risk factors. Early detection is crucial, as melanoma can spread rapidly. Prevention includes wearing protective clothing, applying broad-spectrum sunscreen, avoiding tanning beds, and performing regular skin checks to detect any suspicious changes.',
-                6: 'A common form of skin cancer.Squamous cell carcinoma (SCC) is a common type of skin cancer that occurs due to uncontrolled growth of squamous cells in the skin"s outer layer. It often appears as scaly, red patches, open sores, or thickened skin on sun-exposed areas. The main causes are prolonged UV exposure, weakened immune systems, and exposure to harmful chemicals. Prevention includes using sunscreen, wearing sun-protective clothing, and avoiding excessive sun exposure, especially during peak hours.',
-                7: 'A fungal infection of the skin.Tinea, commonly known as ringworm, is a contagious fungal infection that affects the skin, scalp, or nails, causing red, itchy, ring-shaped rashes. Candidiasis, caused by Candida fungi, often affects moist areas such as the mouth, groin, and under the breasts, leading to redness, itching, and discomfort. These infections spread through direct contact with infected individuals, animals, or contaminated objects. Prevention includes maintaining proper hygiene, keeping skin dry, avoiding sharing personal items, and using antifungal powders or creams when necessary.',
-                8: 'An abnormality of the skin due to blood vessels.Vascular lesions are abnormalities of blood vessels that can appear as birthmarks, hemangiomas, or spider veins. They result from genetic factors, hormonal changes, or excessive sun exposure. While usually harmless, some vascular lesions may require laser therapy or medical treatment for cosmetic or medical reasons. Prevention includes avoiding prolonged sun exposure, using sunscreen, and leading a healthy lifestyle to maintain good vascular health.'
+
+            disease_descriptions = {
+                0: 'Actinic keratosis is a rough, scaly patch on the skin caused by sun exposure. It can potentially lead to skin cancer.',
+                1: 'Atopic dermatitis causes red, itchy skin. Common in children, but can affect adults too.',
+                2: 'Benign keratosis includes harmless skin growths like seborrheic keratosis, common in older adults.',
+                3: 'Dermatofibroma is a small, noncancerous bump on the skin, often due to insect bites or minor injury.',
+                4: 'Melanocytic nevus is a common mole caused by melanocyte clusters. Most are benign.',
+                5: 'Melanoma is a serious skin cancer arising from melanocytes. Early detection is critical.',
+                6: 'Squamous cell carcinoma is a common skin cancer caused by UV exposure.',
+                7: 'Tinea or ringworm is a fungal infection causing ring-like rashes. Candidiasis affects moist areas like mouth or groin.',
+                8: 'Vascular lesions are abnormal blood vessel growths like hemangiomas or spider veins.',
             }
-            
-            disease_name = class_name[result_index]
-            st.success(f"✅ Prediction: {disease_name}")
-            st.write(f"ℹ️ {disease_info[result_index]}")
-            
-            pdf_bytes = generate_pdf(disease_name, disease_info[result_index], test_image)
-            st.download_button("📄 Download PDF Report", data=pdf_bytes, file_name="Diagnosis_Report.pdf", mime="application/pdf")
-            
+
+            disease_name = class_names[result_index]
+            disease_info = disease_descriptions[result_index]
+
+            st.success(f"🧬 Detected: {disease_name}")
+            st.info(disease_info)
+
+            # Downloadable PDF
+            pdf_file = generate_pdf(disease_name, disease_info, test_image)
+            st.download_button("📄 Download Diagnosis Report", data=pdf_file, file_name="Skin_Diagnosis_Report.pdf", mime="application/pdf")
+
+            # Map rendering
             lat, lon, hospitals = find_hospitals(user_location)
-            
-            if hospitals:
+            if lat and hospitals:
                 st.subheader("🏥 Nearby Hospitals")
-                m = folium.Map(location=[lat, lon], zoom_start=14, tiles='OpenStreetMap', attr='© OpenStreetMap contributors')
-                folium.Marker([lat, lon], popup="Your Location", icon=folium.Icon(color='blue', icon='cloud')).add_to(m)
-                
-                for hosp_lat, hosp_lon, hosp_name in hospitals:
-                    folium.Marker([hosp_lat, hosp_lon], popup=hosp_name, icon=folium.Icon(color='red', icon='plus-square')).add_to(m)
-                    folium.CircleMarker(
-                        location=[hosp_lat, hosp_lon],
-                        radius=12,
-                        color='red',
-                        fill=True,
-                        fill_color='red',
-                        fill_opacity=0.7,
-                    ).add_to(m)
-                
-                folium_static(m)
+                map_obj = folium.Map(location=[lat, lon], zoom_start=13)
+                folium.Marker([lat, lon], tooltip="You are here", icon=folium.Icon(color="blue")).add_to(map_obj)
+                for h_lat, h_lon, name in hospitals:
+                    folium.Marker([h_lat, h_lon], popup=name, icon=folium.Icon(color='red', icon='plus')).add_to(map_obj)
+                    folium.Circle([h_lat, h_lon], radius=300, color='crimson', fill=True, fill_opacity=0.4).add_to(map_obj)
+                folium_static(map_obj)
             else:
-                st.warning("⚠️ Could not find hospitals for the given location. Try entering a more specific place.")
+                st.warning("⚠️ Location not recognized or no hospitals found. Try a different or more specific location.")
 
 if __name__ == "__main__":
     app()
-
