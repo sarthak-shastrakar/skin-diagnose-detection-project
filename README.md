@@ -67,7 +67,7 @@ A friendly AI chatbot to:
 ---
 
 ## Project Demo Link
-https://skin-diagnose-detection-project-011.streamlit.app/
+https://skin-diagnose-detection-project-001.streamlit.app/
 
 ---
 
