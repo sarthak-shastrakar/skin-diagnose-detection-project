@@ -1,138 +1,3 @@
-# import streamlit as st
-# import google.generativeai as genai
-
-# # api_key = "AIzaSyD_N7VHKTfjcLXvLvO9eNfTq24EurdfhRI"
-# # gemini-1.5-flash
-
-# # Set up Google API Key
-# genai.configure(api_key="AIzaSyD_N7VHKTfjcLXvLvO9eNfTq24EurdfhRI")  # Replace with your actual API key
-# # Define the chatbot function
-# def app():
-#     # Page Configuration
-#     # st.set_page_config(page_title="AI Chatbot", page_icon="💬", layout="wide")
-
-#     # Custom CSS Styling with Background Image
-#     st.markdown("""
-#         <style>
-#             /* Background Image */
-#             .stApp {
-#                 # background-image: url("https://img.freepik.com/free-vector/chatbot-concept-background-realistic-style_23-2147831748.jpg?t=st=1742305956~exp=1742309556~hmac=a23b0f7c5d7cbe1b1493da4d38408bc61f6d3208d6b3e43ba66d882205b8ae98&w=826");
-#                 # background-size: cover;
-#                   background-color: #403060;
-#                 background-image: radial-gradient(
-#                 circle,
-#                 rgba(0, 0, 0, 0) 0%,
-#                 rgba(0, 0, 0, 0.8) 100%
-#                 );
-#                 height:100%;
-#                 background-position: center;
-#                 background-attachment: fixed;
-#                 color: white;
-#             }
-#             .container{
-#             background-color:pink;}
-
-#             /* Chat Container */
-#             .chat-container {
-#                 max-width: 700px;
-#                 margin: auto;
-#                 border:2px solid white;
-#                 background-color: pink;
-#                 padding: 20px;
-#                 border-radius: 15px;
-#                 color: white;
-#             }
-
-#             /* User & Bot Messages */
-#             .user-message {
-#                 background-color: #007bff;
-#                 color: white;
-#                 padding: 10px;
-#                 border-radius: 10px;
-#                 max-width: 75%;
-#                 text-align: left;
-#                 margin-bottom: 10px;
-#             }
-
-#             .bot-message {
-#                 background-color: #28a745;
-#                 color: white;
-#                 padding: 12px;
-#                 border-radius: 10px;
-#                 max-width: 75%;
-#                 text-align: left;
-#                 margin-bottom: 10px;
-#             }
-
-#             /* Input Box */
-#             .stTextInput {
-#                 background-color: rgba(255, 255, 255, 0.1);
-#                 color: white;
-#             }
-
-#             /* Buttons */
-#             # .stButton>button {
-#             #     border-radius: 8px;
-#             #     padding: 10px 15px;
-#             #     font-weight: bold;
-#             # }
-#         </style>
-#     """, unsafe_allow_html=True)
-
-#     # Title
-#     st.title("💬 AI Chatbot (Gemini)")
-#     st.write("🚀 Chat with an AI assistant! Ask anything.")
-
-#     st.markdown('<div class="container">', unsafe_allow_html=True)
-#     # Initialize session state for chat history
-#     if "messages" not in st.session_state:
-#         st.session_state["messages"] = []
-
-#     # Chat Container
-#     with st.container():
-#         st.markdown('<div class="chat-container">', unsafe_allow_html=True)
-
-#         for message in st.session_state["messages"]:
-#             role = "user-message" if message["role"] == "user" else "bot-message"
-#             st.markdown(f'<div class="{role}">{message["content"]}</div>', unsafe_allow_html=True)
-
-#         st.markdown("</div>", unsafe_allow_html=True)
-
-#     # User input
-#     user_input = st.text_input("Type your message:", key="input")
-
-#     col1, col2 = st.columns([4, 1])  # Layout for Send & Clear buttons
-
-#     with col1:
-#         if st.button("Send") and user_input:
-#             # Add user message to chat history
-#             st.session_state["messages"].append({"role": "user", "content": user_input})
-
-#             # Generate response using Google Gemini AI
-#             model = genai.GenerativeModel("gemini-1.5-flash")  # Correct model selection
-#             response = model.generate_content(user_input)
-
-#             # Extract bot response
-#             bot_response = response.text if hasattr(response, "text") else "Sorry, I couldn't generate a response."
-
-#             # Add bot response to chat history
-#             st.session_state["messages"].append({"role": "bot", "content": bot_response})
-
-#             # Refresh the page to display new messages
-#             st.rerun()
-
-#     with col2:
-#         if st.button("Clear Chat"):
-#             st.session_state["messages"] = []  # Clear chat history
-#             st.rerun()  # Refresh UI
-
-#         st.markdown("</div>", unsafe_allow_html=True)
-
-
-
-
-# ----------------
-
 
 import streamlit as st
 import google.generativeai as genai
@@ -156,12 +21,12 @@ def app():
                 align-items: center;
                 height: 100vh;
                 color: #e0e0e0;
-                background-color: #403060;
-                background-image: radial-gradient(
-                    circle,
-                    rgba(0, 0, 0, 0) 0%,
-                    rgba(0, 0, 0, 0.8) 100%
-                );
+                background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+                # background-image: radial-gradient(
+                #     circle,
+                #     rgba(0, 0, 0, 0) 0%,
+                #     rgba(0, 0, 0, 0.8) 100%
+                # );
             }
             .chat-container {
                 width: 100%;
@@ -283,3 +148,5 @@ def app():
 # Run the chatbot app
 if __name__ == "__main__":
     app()
+
+
