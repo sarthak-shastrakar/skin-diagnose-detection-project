@@ -71,7 +71,14 @@ A friendly AI chatbot to:
 ### 📄 PDF Report Example  
 ![homepage Screenshot](images/homepage.png)
 
----
+> ### 🖼️ Skin Disease Prediction Page  
+![Map Screenshot](images/map_suggestion.png)
+
+### 🗺️ Hospital Location Mapping  
+![PDF Screenshot](images/PDF_generate.png)
+
+### 📄 PDF Report Example  
+![About Screenshot](images/aboutproject.png)
 
 ## Project Demo Link
 https://skin-diagnose-detection-project-001.streamlit.app/
