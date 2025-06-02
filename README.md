@@ -65,19 +65,19 @@ A friendly AI chatbot to:
 > ### 🖼️ Skin Disease Prediction Page  
 ![Prediction Screenshot](images/prediction.png)
 
-### 🗺️ Hospital Location Mapping  
+### Chatbot Assistant
 ![chatbot Screenshot](images/chatbot.png)
 
-### 📄 PDF Report Example  
+###  Homepage 
 ![homepage Screenshot](images/homepage.png)
 
-> ### 🖼️ Skin Disease Prediction Page  
+> ### 🗺️ Hospital Location Mapping 
 ![Map Screenshot](map_suggestion.png)
 
-### 🗺️ Hospital Location Mapping  
+###  📄 PDF Report Example 
 ![PDF Screenshot](PDF_generate.png)
 
-### 📄 PDF Report Example  
+### 📄 Overview About Project 
 ![About Screenshot](aboutproject.png)
 
 ## Project Demo Link
