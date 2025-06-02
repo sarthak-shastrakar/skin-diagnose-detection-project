@@ -62,7 +62,6 @@ A friendly AI chatbot to:
 
 ## 📸 Screenshots
 
-> *Add screenshots or a demo video here if available.*
 > ### 🖼️ Skin Disease Prediction Page  
 ![Prediction Screenshot](images/prediction.png)
 
