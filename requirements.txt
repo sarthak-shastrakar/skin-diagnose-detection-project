@@ -1,6 +1,7 @@
 ﻿streamlit
 streamlit-option-menu
 python-dotenv
+python-3.10
 numpy
 pandas
 tensorflow
