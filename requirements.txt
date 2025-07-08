@@ -1,9 +1,9 @@
-﻿streamlit
+streamlit
 streamlit-option-menu
 python-dotenv
-numpy
+numpy==1.23.5
 pandas
-tensorflow
+tensorflow==2.13.0
 keras
 scikit-learn
 matplotlib
@@ -16,4 +16,4 @@ streamlit-folium
 fpdf
 geopy
 gdown
-python
+
