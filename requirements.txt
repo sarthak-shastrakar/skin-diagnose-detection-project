@@ -16,3 +16,4 @@ streamlit-folium
 fpdf
 geopy
 gdown
+python-3.10
